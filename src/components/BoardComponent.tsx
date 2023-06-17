@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useRef, useState } from 'react';
 import styles from './Board.module.scss';
 import { Colors } from '../models/Colors';
 import PieceComponent from './PieceComponent';
@@ -6,6 +6,7 @@ import SuggestedMove from './SuggestedMove';
 import { Piece } from '../models/pieces/Piece';
 import { Cell } from '../models/Cell';
 import { Board } from '../models/Board';
+import PieceGrabbed from './PieceGrabbed';
 
 interface BoardProps {
   board: Board;
@@ -17,8 +18,23 @@ const BoardComponent: FC<BoardProps> = ({ board }) => {
   const [isClicked, setIsClicked] = useState<boolean>(false);
   const [justMoved, setJustMoved] = useState<boolean>(false);
 
+  const [grabbedPieceWidth, setGrabbedPieceWidth] = useState<number>(0);
+  const [grabbedPieceHeight, setGrabbedPieceHeight] = useState<number>(0);
+  const [grabbedPieceX, setGrabbedPieceX] = useState<number>(0);
+  const [grabbedPieceY, setGrabbedPieceY] = useState<number>(0);
+
+  const boardRef = useRef<HTMLInputElement>(null);
+
   const onMouseDown = (piece: Piece | null, cell: Cell, event: React.MouseEvent<HTMLElement>) => {
     event.stopPropagation();
+
+    // Setup grabbed piece width and height
+    const width = !boardRef.current?.offsetWidth ? 0 : boardRef.current.offsetWidth;
+    const height = !boardRef.current?.offsetHeight ? 0 : boardRef.current.offsetHeight;
+
+    setGrabbedPieceWidth(width / 8)
+    setGrabbedPieceHeight(height / 8)
+
     if (
       selectedPiece !== null &&
       piece !== null &&
@@ -48,7 +64,6 @@ const BoardComponent: FC<BoardProps> = ({ board }) => {
   const onMouseUp = (piece: Piece | null, cell: Cell) => {
     if (justMoved) {
       setJustMoved(false);
-      console.log(1)
       return;
     }
 
@@ -76,13 +91,29 @@ const BoardComponent: FC<BoardProps> = ({ board }) => {
     setGrabbedPiece(null);
   };
 
+  const onMouseMove = (event: React.MouseEvent<HTMLElement>) => {
+    if(!boardRef.current) return;
+    const { clientX, clientY } = event;
+    const { left, top } = boardRef.current.getBoundingClientRect();
+    const x = clientX - left;
+    const y = clientY - top;
+
+    setGrabbedPieceX(x);
+    setGrabbedPieceY(y);
+  }
+
   const handleContextMenu = (e: React.MouseEvent<HTMLElement>) => {
     // prevent the right-click menu from appearing
     e.preventDefault();
   };
 
   return (
-    <div className={styles.boardWrapper} onMouseLeave={onMouseLeave} onContextMenu={handleContextMenu}>
+    <div
+    ref={boardRef}
+    className={styles.boardWrapper}
+    onMouseLeave={onMouseLeave}
+    onContextMenu={handleContextMenu}
+    onMouseMove={onMouseMove}>
       {board.cells.map((row, rowIndex) => (
         <div className={styles.row} key={`board-row-${rowIndex}`}>
           {row.map((cell) => (
@@ -109,6 +140,13 @@ const BoardComponent: FC<BoardProps> = ({ board }) => {
           ))}
         </div>
       ))}
+      <PieceGrabbed
+        grabbedPiece={grabbedPiece}
+        grabbedPieceWidth={grabbedPieceWidth}
+        grabbedPieceHeight={grabbedPieceHeight}
+        grabbedPieceX={grabbedPieceX}
+        grabbedPieceY={grabbedPieceY}
+      />
     </div>
   );
 };

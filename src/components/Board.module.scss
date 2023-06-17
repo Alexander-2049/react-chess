@@ -1,9 +1,12 @@
 .boardWrapper {
+    background-color: rgb(43, 43, 43);
+    margin-left: 100px;
     max-width: 800px;
     width: 90vw;
     padding: 64px;
     aspect-ratio: 1 / 1;
     user-select: none;
+    position: relative;
 }
 
 .row {
