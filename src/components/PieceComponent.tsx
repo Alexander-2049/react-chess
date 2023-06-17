@@ -9,22 +9,11 @@ interface PieceComponentProps {
     grabbedPiece: Piece | null;
 }
 
-const PieceComponent: FC<PieceComponentProps> = ({piece, selectedPiece, setSelectedPiece, grabbedPiece}) => {
-    function clickHandler() {
-        if(piece !== selectedPiece) {
-            setSelectedPiece(piece)
-            // setIsPieceGrabbed(true)
-        } else {
-            setSelectedPiece(null)
-            // setIsPieceGrabbed(false)
-        }
-    }
-
-
+const PieceComponent: FC<PieceComponentProps> = ({piece, grabbedPiece}) => {
     if(!piece?.logo) return;
     if(grabbedPiece === piece) return;
     return (
-        <div className={styles.piece} onClick={clickHandler}>
+        <div className={styles.piece}>
             <img src={piece.logo}/>
         </div>
     );

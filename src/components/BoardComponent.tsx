@@ -29,6 +29,7 @@ const BoardComponent: FC<BoardProps> = ({ board }) => {
       selectedPiece.cell.movePiece(cell);
       setSelectedPiece(null);
       setIsClicked(false);
+      setJustMoved(true);
     } else if (selectedPiece !== null && piece === null && selectedPiece.canMove(cell)) {
       selectedPiece.cell.movePiece(cell);
       setJustMoved(true);
@@ -47,6 +48,7 @@ const BoardComponent: FC<BoardProps> = ({ board }) => {
   const onMouseUp = (piece: Piece | null, cell: Cell) => {
     if (justMoved) {
       setJustMoved(false);
+      console.log(1)
       return;
     }
 
