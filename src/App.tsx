@@ -8,15 +8,21 @@ function App() {
 
   const [board, setBoard] = useState(new Board());
 
-  useEffect(() => {
-      const newBoard = new Board();
+  const restart = () => {
+    const newBoard = new Board();
       newBoard.initCells();
+      newBoard.initPieces();
       setBoard(newBoard);
+  }
+
+  useEffect(() => {
+    restart()
   }, [])
 
   return (
     <>
-      <BoardComponent board={board} setBoard={setBoard}/>
+      <button onClick={restart}>restart</button>
+      <BoardComponent board={board}/>
     </>
   )
 }

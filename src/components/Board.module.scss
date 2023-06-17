@@ -1,0 +1,46 @@
+.boardWrapper {
+    max-width: 800px;
+    width: 90vw;
+    padding: 64px;
+    aspect-ratio: 1 / 1;
+    user-select: none;
+}
+
+.row {
+    display: flex;
+}
+
+.cell {
+    width: 12.5%;
+    height: 12.5%;
+    aspect-ratio: 1 / 1;
+    position: relative;
+
+    &.pieceSelected {
+        background-color: yellowgreen;
+    }
+
+    &.grabHover {
+        &::after {
+            display: block;
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+        }
+        &.grabbedHover:hover::after {
+            border: 4px solid rgba(255, 248, 148, 0.656);
+        }
+    }
+}
+
+.black {
+    background-color: rgb(19, 131, 49);
+}
+
+.white {
+    background-color: rgb(164 206 239);
+}
