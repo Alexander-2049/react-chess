@@ -1,5 +1,6 @@
 import { Cell } from "./Cell";
 import { Colors } from "./Colors";
+import { Move } from "./Move";
 import { Bishop } from "./pieces/Bishop";
 import { King } from "./pieces/King";
 import { Knight } from "./pieces/Knight";
@@ -8,7 +9,8 @@ import { Queen } from "./pieces/Queen";
 import { Rook } from "./pieces/Rook";
 
 export class Board {
-    cells: Cell[][] = [];    
+    cells: Cell[][] = [];
+    moves: Move[] = [];
     
     public initCells() {
         for(let i = 0; i < 8; i++) {

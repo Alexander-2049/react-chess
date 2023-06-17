@@ -1,5 +1,6 @@
 import { Board } from "./Board";
 import { Colors } from "./Colors";
+import { Move } from "./Move";
 import { Piece } from "./pieces/Piece";
 
 export class Cell {
@@ -18,6 +19,8 @@ export class Cell {
     }
     
     setPiece(piece: Piece) {
+        new Move(this.board, piece.color, piece, [piece.cell.x, piece.cell.y], [this.x, this.y]);
+
         this.piece = piece;
         this.piece.cell = this;
     }
