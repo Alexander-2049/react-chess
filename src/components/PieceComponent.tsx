@@ -5,7 +5,6 @@ import styles from './Piece.module.scss';
 interface PieceComponentProps {
     piece: Piece | null;
     selectedPiece: Piece | null;
-    setSelectedPiece: Function;
     grabbedPiece: Piece | null;
 }
 
