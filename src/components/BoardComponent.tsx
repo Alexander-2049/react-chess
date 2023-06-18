@@ -131,8 +131,6 @@ const BoardComponent: FC<BoardProps> = ({ board }) => {
             >
               <PieceComponent
                 piece={cell.piece}
-                selectedPiece={selectedPiece}
-                setSelectedPiece={setSelectedPiece}
                 grabbedPiece={grabbedPiece}
               />
               {selectedPiece !== null ? <SuggestedMove selectedPiece={selectedPiece} cell={cell} /> : ''}
