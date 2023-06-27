@@ -12,7 +12,7 @@ const PieceComponent: FC<PieceComponentProps> = ({piece, grabbedPiece}) => {
     if(grabbedPiece === piece) return;
     return (
         <div className={styles.piece}>
-            <img src={piece.logo}/>
+            <img src={piece.logo} draggable={false}/>
         </div>
     );
 };

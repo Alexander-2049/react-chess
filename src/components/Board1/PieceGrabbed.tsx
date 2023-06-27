@@ -36,7 +36,7 @@ const PieceGrabbed: FC<PieceGrabbedProps> = ({
       className={styles.piece}
       onMouseDown={handleMouseDown}
     >
-      <img src={grabbedPiece.logo || ''} alt="" />
+      <img src={grabbedPiece.logo || ''} draggable={false} alt="" />
     </div>
     </div>
   );

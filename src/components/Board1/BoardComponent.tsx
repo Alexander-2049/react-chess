@@ -60,6 +60,8 @@ const BoardComponent: FC<BoardProps> = ({ board, currentPlayer, swapPlayer }) =>
       setGrabbedPiece(piece);
       if(piece?.color === currentPlayer?.color) {
         setSelectedPiece(piece);
+      } else {
+        setSelectedPiece(null);
       }
     }
 
