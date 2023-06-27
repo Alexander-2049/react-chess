@@ -1,4 +1,4 @@
-import { Piece } from '../models/pieces/Piece';
+import { Piece } from '../../models/pieces/Piece';
 import { FC } from 'react';
 import styles from './Piece.module.scss';
 

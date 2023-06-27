@@ -1,7 +1,7 @@
-import { Cell } from "../models/Cell";
+import { Cell } from "../../models/Cell";
 import { FC } from 'react';
 import styles from './SuggestedMove.module.scss';
-import { Piece } from "../models/pieces/Piece";
+import { Piece } from "../../models/pieces/Piece";
 
 interface SuggestedMoveProps {
     cell: Cell;

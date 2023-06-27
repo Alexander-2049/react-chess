@@ -1,18 +1,21 @@
 import React, { FC, useRef, useState } from 'react';
 import styles from './Board.module.scss';
-import { Colors } from '../models/Colors';
+import { Colors } from '../../models/Colors';
 import PieceComponent from './PieceComponent';
 import SuggestedMove from './SuggestedMove';
-import { Piece } from '../models/pieces/Piece';
-import { Cell } from '../models/Cell';
-import { Board } from '../models/Board';
+import { Piece } from '../../models/pieces/Piece';
+import { Cell } from '../../models/Cell';
+import { Board } from '../../models/Board';
 import PieceGrabbed from './PieceGrabbed';
+import { Player } from '../../models/Player';
 
 interface BoardProps {
   board: Board;
+  currentPlayer: Player | null;
+  swapPlayer: () => void;
 }
 
-const BoardComponent: FC<BoardProps> = ({ board }) => {
+const BoardComponent: FC<BoardProps> = ({ board, currentPlayer, swapPlayer }) => {
   const [selectedPiece, setSelectedPiece] = useState<Piece | null>(null);
   const [grabbedPiece, setGrabbedPiece] = useState<Piece | null>(null);
   const [isClicked, setIsClicked] = useState<boolean>(false);
@@ -46,14 +49,18 @@ const BoardComponent: FC<BoardProps> = ({ board }) => {
       setSelectedPiece(null);
       setIsClicked(false);
       setJustMoved(true);
+      swapPlayer();
     } else if (selectedPiece !== null && piece === null && selectedPiece.canMove(cell)) {
       selectedPiece.cell.movePiece(cell);
       setJustMoved(true);
       setSelectedPiece(null);
       setIsClicked(false);
+      swapPlayer();
     } else {
       setGrabbedPiece(piece);
-      setSelectedPiece(piece);
+      if(piece?.color === currentPlayer?.color) {
+        setSelectedPiece(piece);
+      }
     }
 
     if (piece !== selectedPiece) {
@@ -73,6 +80,7 @@ const BoardComponent: FC<BoardProps> = ({ board }) => {
     } else if (selectedPiece !== piece) {
       if (selectedPiece && selectedPiece.canMove(cell)) {
         selectedPiece.cell.movePiece(cell);
+        swapPlayer();
         setSelectedPiece(null);
       }
       setIsClicked(false);

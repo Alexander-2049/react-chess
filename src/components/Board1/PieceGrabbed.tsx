@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { Piece } from '../models/pieces/Piece';
+import { Piece } from '../../models/pieces/Piece';
 import styles from './PieceGrabbed.module.scss';
 
 interface PieceGrabbedProps {
