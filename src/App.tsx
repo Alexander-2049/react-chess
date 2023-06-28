@@ -4,15 +4,7 @@ import { Board } from './models/Board';
 import {useEffect, useState} from 'react';
 import { Player } from './models/Player';
 import { Colors } from './models/Colors';
-
-/*
-
-SELECT PIECE LOGIC:
-
-- Do not allow to select piece if it's not your turn
-...
-
-*/
+import Chess from './components/Chess';
 
 function App() {
   board: Board;
@@ -49,6 +41,7 @@ function App() {
         currentPlayer={currentPlayer}
         swapPlayer={swapPlayer}
       />
+      {/* <Chess/> */}
     </>
   )
 }
