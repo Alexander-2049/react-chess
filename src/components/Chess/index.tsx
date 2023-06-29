@@ -10,9 +10,16 @@ export function Chess() {
         color: PieceColors.white,
         possibleMoves: ["a3","a4"]
     }
+    const piece1: PieceInterface = {
+        id: 3123,
+        pieceId: 1,
+        coordinates: "c3",
+        color: PieceColors.white,
+        possibleMoves: ["a3","a4"]
+    }
 
     return (
-        <Board pieces={[piece]}/>
+        <Board pieces={[piece, piece1]}/>
     );
 }
 
