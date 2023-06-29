@@ -7,8 +7,6 @@ import { Colors } from './models/Colors';
 import Chess from './components/Chess';
 
 function App() {
-  board: Board;
-
   const [board, setBoard] = useState(new Board());
   const [whitePlayer, setWhitePlayer] = useState(new Player(Colors.WHITE));
   const [blackPlayer, setBlackPlayer] = useState(new Player(Colors.BLACK));
@@ -35,13 +33,13 @@ function App() {
 
   return (
     <>
+      <Chess/>
       <button onClick={restart}>restart</button>
       <BoardComponent
         board={board}
         currentPlayer={currentPlayer}
         swapPlayer={swapPlayer}
       />
-      {/* <Chess/> */}
     </>
   )
 }

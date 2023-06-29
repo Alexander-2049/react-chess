@@ -1,19 +1,18 @@
-import Board from "./Board";
+import Board from "./Board/Board";
+import { PieceColors } from "./Board/types/PieceColors";
+import { PieceInterface } from "./Board/types/PieceInterface";
 
 export function Chess() {
-    const board = [
-        [[32, 21, "a4"], null, null, null, [32, 21, "a4", "a4", "a4", "a4"], null, null, null],
-        [[32, 21, "a4"], null, null, null, null, null, null, null],
-        [[32, 21, "a4"], null, null, null, null, null, null, null],
-        [[32, 21, "a4"], null, null, null, null, null, null, null],
-        [[32, 21, "a4"], null, null, null, null, null, null, null],
-        [[32, 21, "a4"], null, null, null, null, null, null, null],
-        [[32, 21, "a4"], null, null, null, null, null, null, null],
-        [[32, 21, "a4"], null, null, null, null, null, null, null],
-    ]
+    const piece: PieceInterface = {
+        id: 3123,
+        pieceId: 0,
+        coordinates: "c4",
+        color: PieceColors.white,
+        possibleMoves: ["a3","a4"]
+    }
 
     return (
-        <Board board={board}/>
+        <Board pieces={[piece]}/>
     );
 }
 
