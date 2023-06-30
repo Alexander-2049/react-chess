@@ -13,13 +13,12 @@ interface BoardProps {
 
 const Board = ({pieces}: BoardProps) => {
     const [board, setBoard] = useState<CellInterface[][]>(getEmptyBoard());
+    const [selectedCell, setSelectedCell] = useState<string | null>(null);
 
     useEffect(() => {
         const piecesErrors = collectPiecesErrors(pieces);
-        if(piecesErrors) {
-            console.warn(piecesErrors);
-            return;
-        }
+        if(piecesErrors) return console.warn(piecesErrors);
+
         const board = getBoardWithPieces(pieces);
         setBoard(board);
     }, [pieces])
