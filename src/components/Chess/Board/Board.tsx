@@ -18,10 +18,11 @@ export const SelectContext = createContext<SelectContextProps>({
 });
 
 interface BoardProps {
-    pieces: PieceInterface[]
+    pieces: PieceInterface[];
+    isBoardWhiteSide: boolean;
 }
 
-const Board = ({pieces}: BoardProps) => {
+const Board = ({pieces, isBoardWhiteSide}: BoardProps) => {
     const [board, setBoard] = useState<CellInterface[][]>(getEmptyBoard());
     // const [selectedCell, setSelectedCell] = useState<string | null>(null);
     const [grabbedPiece, setGrabbedPiece] = useState<string | null>(null);
@@ -31,6 +32,12 @@ const Board = ({pieces}: BoardProps) => {
         if(piecesErrors) return console.warn(piecesErrors);
 
         const board = getBoardWithPieces(pieces);
+        if(!isBoardWhiteSide) {
+            for(const row of board) {
+                row.reverse();
+            }
+            board.reverse();
+        }
         setBoard(board);
     }, [pieces])
 

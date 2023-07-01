@@ -1,6 +1,10 @@
-function Controls() {
+interface ControlsInterface {
+    turnBoard: () => void;
+}
+
+function Controls({turnBoard}: ControlsInterface) {
     return ( 
-        <div>Controls</div>
+        <div><button onClick={turnBoard}>TURN BOARD</button></div>
      );
 }
 

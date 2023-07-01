@@ -1,6 +1,8 @@
+import {useCallback, useState} from 'react';
 import Board from "./Board/Board";
 import { PieceColors } from "./Board/types/PieceColors";
 import { PieceInterface } from "./Board/types/PieceInterface";
+import Controls from './Controls';
 
 export function Chess() {
     const piece: PieceInterface = {
@@ -18,8 +20,17 @@ export function Chess() {
         possibleMoves: ["a3","a4"]
     }
 
+    const [isBoardWhiteSide, setIsBoardWhiteSide] = useState(true);
+
+    const turnBoard = useCallback(() => {
+        setIsBoardWhiteSide(!isBoardWhiteSide);
+    }, [isBoardWhiteSide])
+
     return (
-        <Board pieces={[piece, piece1]}/>
+        <div>
+            <Board pieces={[piece, piece1]} isBoardWhiteSide={isBoardWhiteSide}/>
+            <Controls turnBoard={turnBoard}/>
+        </div>
     );
 }
 
