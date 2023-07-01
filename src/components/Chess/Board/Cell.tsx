@@ -68,18 +68,17 @@ export function Cell({cell}: CellProps) {
             else if(grabbedPiece !== null) {
                 if(grabbedPiece.possibleMoves.includes(cell.coordinates)) {
                     movePieceFromToHandler(grabbedPiece.coordinates, cell.coordinates);
-                    setGrabbedPiece(null);
                     setSelectedPiece(null);
                 } else if(grabbedPiece.coordinates === cell.coordinates) {
                     if(isPreventDeselect) {
                         setIsPreventDeselect(false);
                     } else {
-                        setGrabbedPiece(null);
                         setSelectedPiece(null);
                         setIsPreventDeselect(true);
                     }
                 }
             }
+            setGrabbedPiece(null);
         }
         if(e.button === 2) {
             console.log('RIGHT UP', cell.coordinates);

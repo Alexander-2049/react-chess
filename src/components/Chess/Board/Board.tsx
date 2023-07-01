@@ -86,7 +86,13 @@ const Board = ({pieces, isBoardWhiteSide, movePieceFromTo}: BoardProps) => {
 
     return (
         <SelectContext.Provider value={{ grabbedPiece, setGrabbedPiece, movePieceFromToHandler, selectedPiece, setSelectedPiece }}>
-            <div className={styles.boardWrapper} onMouseLeave={() => setGrabbedPiece(null)}>
+            <div
+                className={[
+                    styles.boardWrapper,
+                    grabbedPiece === null ? '' : styles.boardHover
+                ].join(' ')}
+                onMouseLeave={() => setGrabbedPiece(null)}
+            >
                 {board.map((row, index) => <Row key={`row-${index}`} row={row} rowIndex={index}/>)}
             </div>
         </SelectContext.Provider>
