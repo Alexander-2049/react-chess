@@ -8,7 +8,6 @@ export function getBoardWithPieces(pieces: PieceInterface[]) {
     for(let i = 0; i < pieces.length; i++) {
         const piece = pieces[i];
         const coordinates = convertFromChessCoordinates(piece.coordinates);
-        console.log(coordinates, piece.coordinates);
         board[coordinates[1]][coordinates[0]].piece = piece;
 
     }

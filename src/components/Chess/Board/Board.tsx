@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { createContext, useEffect, useState } from 'react';
 import { PieceInterface } from "./types/PieceInterface";
 import { getEmptyBoard } from '../utils/getEmptyBoard';
 import { CellInterface } from './types/CellInterface';
@@ -7,13 +7,24 @@ import Row from './Row';
 import { collectPiecesErrors } from '../utils/collectPiecesErrors';
 import { getBoardWithPieces } from '../utils/getBoardWithPieces';
 
+interface SelectContextProps {
+    grabbedPiece: string | null;
+    setGrabbedPiece: React.Dispatch<React.SetStateAction<string | null>>;
+}
+
+export const SelectContext = createContext<SelectContextProps>({
+    grabbedPiece: null,
+    setGrabbedPiece: () => { console.log('HI!') },
+});
+
 interface BoardProps {
     pieces: PieceInterface[]
 }
 
 const Board = ({pieces}: BoardProps) => {
     const [board, setBoard] = useState<CellInterface[][]>(getEmptyBoard());
-    const [selectedCell, setSelectedCell] = useState<string | null>(null);
+    // const [selectedCell, setSelectedCell] = useState<string | null>(null);
+    const [grabbedPiece, setGrabbedPiece] = useState<string | null>(null);
 
     useEffect(() => {
         const piecesErrors = collectPiecesErrors(pieces);
@@ -24,9 +35,11 @@ const Board = ({pieces}: BoardProps) => {
     }, [pieces])
 
     return (
-        <div className={styles.boardWrapper}>
-            {board.map((row, index) => <Row key={`row-${index}`} row={row} rowIndex={index}/>)}
-        </div>
+        <SelectContext.Provider value={{ grabbedPiece, setGrabbedPiece }}>
+            <div className={styles.boardWrapper}>
+                {board.map((row, index) => <Row key={`row-${index}`} row={row} rowIndex={index}/>)}
+            </div>
+        </SelectContext.Provider>
     );
 };
 
