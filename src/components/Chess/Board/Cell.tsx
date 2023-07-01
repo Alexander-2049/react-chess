@@ -44,6 +44,8 @@ export function Cell({cell}: CellProps) {
                     if(cell.piece !== null) {
                         if(selectedPiece.coordinates === cell.coordinates) {
                             setIsPreventDeselect(false);
+                        } else {
+                            setIsPreventDeselect(true);
                         }
                         setSelectedPiece(cell.piece);
                         setGrabbedPiece(cell.piece);
