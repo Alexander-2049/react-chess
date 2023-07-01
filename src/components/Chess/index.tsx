@@ -4,16 +4,20 @@ import { PieceColors } from "./Board/types/PieceColors";
 import { PieceInterface } from "./Board/types/PieceInterface";
 import Controls from './Controls';
 
-export function Chess() {
+export type movePieceFromToType = (from: string, to: string) => void;
+
+interface ChessInterface {
+    movePieceFromTo: movePieceFromToType;
+}
+
+export function Chess({movePieceFromTo}: ChessInterface) {
     const piece: PieceInterface = {
-        id: 3123,
         pieceId: 0,
         coordinates: "c4",
         color: PieceColors.white,
         possibleMoves: ["a3","a4"]
     }
     const piece1: PieceInterface = {
-        id: 3123,
         pieceId: 1,
         coordinates: "c3",
         color: PieceColors.white,
@@ -28,7 +32,7 @@ export function Chess() {
 
     return (
         <div>
-            <Board pieces={[piece, piece1]} isBoardWhiteSide={isBoardWhiteSide}/>
+            <Board movePieceFromTo={movePieceFromTo} pieces={[piece, piece1]} isBoardWhiteSide={isBoardWhiteSide}/>
             <Controls turnBoard={turnBoard}/>
         </div>
     );

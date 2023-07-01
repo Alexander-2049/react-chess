@@ -7,7 +7,7 @@ export function getEmptyBoard() {
         emptyBoard.push([]);
         for (let j = 0; j < 8; j++) {
             emptyBoard[7 - i].push({
-                position: convertToCoordinates([j, i]),
+                coordinates: convertToCoordinates([j, i]),
                 piece: null
             });
         }

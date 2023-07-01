@@ -8,7 +8,7 @@ export function collectPiecesErrors(pieces: unknown) {
     for(let i = 0; i < pieces.length; i++) {
         const piece = pieces[i];
         const keys = Object.keys(piece);
-        const requiredKeys = ['id', 'pieceId', 'color', 'possibleMoves'];
+        const requiredKeys = ['pieceId', 'color', 'possibleMoves'];
 
         for(const key of requiredKeys) {
             if(!keys.includes(key)) errorStack.push(`Invalid piece structure: piece does not have ${key} key`);
@@ -16,7 +16,6 @@ export function collectPiecesErrors(pieces: unknown) {
 
         if(errorStack.length > 0) return errorStack;
 
-        if(!Number.isInteger(piece.id)) errorStack.push(`Invalid piece structure: id is not a number`);
         if(!Number.isInteger(piece.pieceId)) errorStack.push(`Invalid piece structure: pieceId is not a number`);
         if(!Number.isInteger(piece.color)) errorStack.push(`Invalid piece structure: color is not a number`);
         if(!Array.isArray(piece.possibleMoves)) errorStack.push(`Invalid piece structure: possibleMoves is not an array`);

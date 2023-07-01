@@ -6,26 +6,34 @@ import styles from './styles/Board.module.scss';
 import Row from './Row';
 import { collectPiecesErrors } from '../utils/collectPiecesErrors';
 import { getBoardWithPieces } from '../utils/getBoardWithPieces';
+import { movePieceFromToType } from '..';
 
 interface SelectContextProps {
-    grabbedPiece: string | null;
-    setGrabbedPiece: React.Dispatch<React.SetStateAction<string | null>>;
+    movePieceFromTo: movePieceFromToType;
+    grabbedPiece: PieceInterface | null;
+    setGrabbedPiece: React.Dispatch<React.SetStateAction<PieceInterface | null>>;
+    selectedPiece: PieceInterface | null;
+    setSelectedPiece: React.Dispatch<React.SetStateAction<PieceInterface | null>>;
 }
 
 export const SelectContext = createContext<SelectContextProps>({
     grabbedPiece: null,
+    selectedPiece: null,
     setGrabbedPiece: () => { console.warn('setGrabbedPiece has to be a useState function') },
+    setSelectedPiece: () => { console.warn('setSelectedCell has to be a useState function') },
+    movePieceFromTo: () => { console.warn('movePieceFromTo has to be changed') }
 });
 
 interface BoardProps {
     pieces: PieceInterface[];
     isBoardWhiteSide: boolean;
+    movePieceFromTo: movePieceFromToType;
 }
 
-const Board = ({pieces, isBoardWhiteSide}: BoardProps) => {
+const Board = ({pieces, isBoardWhiteSide, movePieceFromTo}: BoardProps) => {
     const [board, setBoard] = useState<CellInterface[][]>(getEmptyBoard());
-    // const [selectedCell, setSelectedCell] = useState<string | null>(null);
-    const [grabbedPiece, setGrabbedPiece] = useState<string | null>(null);
+    const [selectedPiece, setSelectedPiece] = useState<PieceInterface | null>(null);
+    const [grabbedPiece, setGrabbedPiece] = useState<PieceInterface | null>(null);
 
     useEffect(() => {
         const piecesErrors = collectPiecesErrors(pieces);
@@ -39,11 +47,11 @@ const Board = ({pieces, isBoardWhiteSide}: BoardProps) => {
             board.reverse();
         }
         setBoard(board);
-    }, [pieces])
+    }, [pieces, isBoardWhiteSide])
 
     return (
-        <SelectContext.Provider value={{ grabbedPiece, setGrabbedPiece }}>
-            <div className={styles.boardWrapper}>
+        <SelectContext.Provider value={{ grabbedPiece, setGrabbedPiece, movePieceFromTo, selectedPiece, setSelectedPiece }}>
+            <div className={styles.boardWrapper} onMouseLeave={() => setGrabbedPiece(null)}>
                 {board.map((row, index) => <Row key={`row-${index}`} row={row} rowIndex={index}/>)}
             </div>
         </SelectContext.Provider>

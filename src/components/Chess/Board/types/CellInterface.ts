@@ -1,6 +1,6 @@
 import { PieceInterface } from "./PieceInterface";
 
 export interface CellInterface {
-    position: string,
+    coordinates: string,
     piece: PieceInterface | null
 }
