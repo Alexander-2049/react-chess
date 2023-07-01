@@ -1,10 +1,10 @@
 interface ControlsInterface {
-    turnBoard: () => void;
+    flipBoard: () => void;
 }
 
-function Controls({turnBoard}: ControlsInterface) {
+function Controls({flipBoard}: ControlsInterface) {
     return ( 
-        <div><button onClick={turnBoard}>TURN BOARD</button></div>
+        <div><button onClick={flipBoard}>TURN BOARD</button></div>
      );
 }
 

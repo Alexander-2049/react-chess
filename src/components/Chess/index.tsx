@@ -26,14 +26,14 @@ export function Chess({movePieceFromTo}: ChessInterface) {
 
     const [isBoardWhiteSide, setIsBoardWhiteSide] = useState(true);
 
-    const turnBoard = useCallback(() => {
+    const flipBoard = useCallback(() => {
         setIsBoardWhiteSide(!isBoardWhiteSide);
     }, [isBoardWhiteSide])
 
     return (
         <div>
             <Board movePieceFromTo={movePieceFromTo} pieces={[piece, piece1]} isBoardWhiteSide={isBoardWhiteSide}/>
-            <Controls turnBoard={turnBoard}/>
+            <Controls flipBoard={flipBoard}/>
         </div>
     );
 }

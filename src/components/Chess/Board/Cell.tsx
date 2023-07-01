@@ -19,7 +19,7 @@ export function Cell({cell}: CellProps) {
             setGrabbedPiece,
             selectedPiece,
             setSelectedPiece,
-            movePieceFromTo
+            movePieceFromToHandler
         } = useContext(SelectContext);
     const [isPreventDeselect, setIsPreventDeselect] = useState(true);
 
@@ -36,7 +36,7 @@ export function Cell({cell}: CellProps) {
             } else if(selectedPiece !== null) {
                 const canMove = selectedPiece.possibleMoves.includes(cell.coordinates);
                 if(canMove) {
-                    movePieceFromTo(selectedPiece.coordinates, cell.coordinates);
+                    movePieceFromToHandler(selectedPiece.coordinates, cell.coordinates);
                     setSelectedPiece(null);
                     setGrabbedPiece(null);
                     setIsPreventDeselect(true);
@@ -67,7 +67,7 @@ export function Cell({cell}: CellProps) {
             if(grabbedPiece === null) return;
             else if(grabbedPiece !== null) {
                 if(grabbedPiece.possibleMoves.includes(cell.coordinates)) {
-                    movePieceFromTo(grabbedPiece.coordinates, cell.coordinates);
+                    movePieceFromToHandler(grabbedPiece.coordinates, cell.coordinates);
                     setGrabbedPiece(null);
                     setSelectedPiece(null);
                 } else if(grabbedPiece.coordinates === cell.coordinates) {
