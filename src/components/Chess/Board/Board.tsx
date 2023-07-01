@@ -14,7 +14,7 @@ interface SelectContextProps {
 
 export const SelectContext = createContext<SelectContextProps>({
     grabbedPiece: null,
-    setGrabbedPiece: () => { console.log('HI!') },
+    setGrabbedPiece: () => { console.warn('setGrabbedPiece has to be a useState function') },
 });
 
 interface BoardProps {
