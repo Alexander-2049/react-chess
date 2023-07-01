@@ -15,7 +15,7 @@ export function Chess({movePieceFromTo}: ChessInterface) {
         pieceId: 0,
         coordinates: "c4",
         color: PieceColors.white,
-        possibleMoves: ["a3","a4"]
+        possibleMoves: ["c3","a4"]
     }
     const piece1: PieceInterface = {
         pieceId: 1,

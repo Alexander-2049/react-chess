@@ -5,6 +5,8 @@ import React from 'react';
 
 import { useContext, useState } from 'react';
 import { SelectContext } from './Board';
+import { Hint } from './Hint';
+import { HintTypes } from './types/HintTypes';
 
 interface CellProps {
     cell: CellInterface;
@@ -97,9 +99,12 @@ export function Cell({cell}: CellProps) {
         className={[
             styles.cellWrapper,
             blackCells.includes(cell.coordinates) ? styles.black : styles.white,
-            cell.coordinates === selectedPiece?.coordinates ? styles.selected : ''
+            cell.coordinates === selectedPiece?.coordinates ? styles.selected : '',
+            grabbedPiece === null ? '' : styles.hoverEffectOnGrab
     ].join(' ')}>
         {cell.piece === null ? '' : <Piece piece={cell.piece}/>}
+        {selectedPiece !== null && selectedPiece.possibleMoves.includes(cell.coordinates) ?
+        (cell.piece === null ? <Hint type={HintTypes.cell}/> : <Hint type={HintTypes.piece}/>) : ''}
     </div> );
 }
 
