@@ -97,12 +97,22 @@ export function Cell({cell}: CellProps) {
         onMouseDown={onMouseDown}
         onMouseUp={onMouseUp}
         className={[
+            // wrapper
             styles.cellWrapper,
+
+            // colorizing background of cells in black and white
             blackCells.includes(cell.coordinates) ? styles.black : styles.white,
+
+            // background color when piece is selected
             cell.coordinates === selectedPiece?.coordinates ? styles.selected : '',
-            grabbedPiece === null ? '' : styles.hoverEffectOnGrab
+
+            // cell colored border on hover when we have grabbed piece
+            grabbedPiece !== null ? styles.hoverEffectOnGrab : '',
+
+            // to prevent default cursor on mouseUp if we are not moving cursor
+            cell.piece !== null && grabbedPiece === null ? styles.withPiece : ''
     ].join(' ')}>
-        {cell.piece === null ? '' : <Piece piece={cell.piece}/>}
+        {cell.piece === null ? '' : (grabbedPiece !== null && grabbedPiece.coordinates === cell.coordinates ? '' : <Piece piece={cell.piece}/>)}
         {selectedPiece !== null && selectedPiece.possibleMoves.includes(cell.coordinates) ?
         (cell.piece === null ? <Hint type={HintTypes.cell}/> : <Hint type={HintTypes.piece}/>) : ''}
     </div> );
