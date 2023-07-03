@@ -4,7 +4,6 @@ import { getEmptyBoard } from "./getEmptyBoard";
 
 export function getBoardWithPieces(pieces: PieceInterface[]) {
     const board = getEmptyBoard();
-
     for(let i = 0; i < pieces.length; i++) {
         const piece = pieces[i];
         const coordinates = convertFromChessCoordinates(piece.coordinates);

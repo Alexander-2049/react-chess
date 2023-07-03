@@ -1,13 +1,13 @@
 import { CellInterface } from "../Board/types/CellInterface";
-import { convertToCoordinates } from "./convertToChessCoordinates";
+import { convertToChessCoordinates } from "./convertToChessCoordinates";
 
 export function getEmptyBoard() {
     const emptyBoard: CellInterface[][] = [];
-    for (let i = 7; i >= 0; i--) {
+    for (let i = 0; i < 8; i++) {
         emptyBoard.push([]);
         for (let j = 0; j < 8; j++) {
-            emptyBoard[7 - i].push({
-                coordinates: convertToCoordinates([j, i]),
+            emptyBoard[i].push({
+                coordinates: convertToChessCoordinates([j, i]),
                 piece: null
             });
         }

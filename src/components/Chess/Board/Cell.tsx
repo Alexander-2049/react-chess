@@ -83,7 +83,7 @@ export function Cell({cell}: CellProps) {
             setGrabbedPiece(null);
         }
         if(e.button === 2) {
-            console.log('RIGHT UP', cell.coordinates);
+            console.log('RIGHT UP', cell.coordinates, cell.piece);
         }
     }
 
