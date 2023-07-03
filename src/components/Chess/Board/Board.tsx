@@ -1,6 +1,5 @@
 import { createContext, useEffect, useState, useRef } from 'react';
 import { PieceInterface } from "./types/PieceInterface";
-import { getEmptyBoard } from '../utils/getEmptyBoard';
 import { CellInterface } from './types/CellInterface';
 import styles from './styles/Board.module.scss';
 import Row from './Row';
