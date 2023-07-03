@@ -33,7 +33,7 @@ interface BoardProps {
 }
 
 const Board = ({pieces, isBoardWhiteSide, movePieceFromTo}: BoardProps) => {
-    const [board, setBoard] = useState<CellInterface[][]>(getEmptyBoard());
+    const [board, setBoard] = useState<CellInterface[][] | null>(null);
     const [selectedPiece, setSelectedPiece] = useState<PieceInterface | null>(null);
     const [grabbedPiece, setGrabbedPiece] = useState<PieceInterface | null>(null);
 
@@ -65,6 +65,10 @@ const Board = ({pieces, isBoardWhiteSide, movePieceFromTo}: BoardProps) => {
     }, [pieces, isBoardWhiteSide])
 
     function onMouseMove(event: React.MouseEvent<HTMLElement>) {
+        if(!grabbedPiece) return;
+        setupGrabbedPieceSettings(event);
+    }
+    function onMouseDown(event: React.MouseEvent<HTMLElement>) {
         setupGrabbedPieceSettings(event);
     }
 
@@ -96,6 +100,7 @@ const Board = ({pieces, isBoardWhiteSide, movePieceFromTo}: BoardProps) => {
     // also he hears a sound
     // TOOD: should be added opponent move tracking to make a sound for it
     function movePieceFromToHandler(from: string, to: string) {
+        if(board === null) return;
         let pieceCaptured = false;
         let fromCell_i_j = [0, 0];
         let toCell_i_j = [0, 0];
@@ -129,6 +134,7 @@ const Board = ({pieces, isBoardWhiteSide, movePieceFromTo}: BoardProps) => {
         movePieceFromTo(from, to);
     }
 
+    if(board === null) return;
     return (
         <SelectContext.Provider value={{ grabbedPiece, setGrabbedPiece, movePieceFromToHandler, selectedPiece, setSelectedPiece }}>
             <div
@@ -139,6 +145,7 @@ const Board = ({pieces, isBoardWhiteSide, movePieceFromTo}: BoardProps) => {
                 onMouseLeave={() => setGrabbedPiece(null)}
                 ref={boardRef}
                 onMouseMove={onMouseMove}
+                onMouseDown={onMouseDown}
             >
                 {board.map((row, index) => <Row key={`row-${index}`} row={row} rowIndex={index}/>)}
 
