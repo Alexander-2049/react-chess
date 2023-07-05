@@ -1,7 +1,7 @@
-function History() {
+function MoveHistory() {
     return ( 
         <div>History</div>
      );
 }
 
-export default History;
+export default MoveHistory;
