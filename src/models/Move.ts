@@ -6,14 +6,16 @@ export class Move {
     board: Board;
 
     readonly player: Colors;
-    readonly piece: Piece;
+    readonly pieceFrom: Piece;
+    readonly pieceTo: Piece | null;
     readonly from: [x: number, y: number];
     readonly to: [x: number, y: number];
     readonly time: Date;
 
-    constructor(board: Board, player: Colors, piece: Piece, from: [x: number, y: number], to: [x: number, y: number]) {
+    constructor(board: Board, player: Colors, pieceFrom: Piece, pieceTo: Piece | null, from: [x: number, y: number], to: [x: number, y: number]) {
         this.player = player;
-        this.piece = piece;
+        this.pieceFrom = pieceFrom;
+        this.pieceTo = pieceTo;
         this.from = from;
         this.to = to;
         this.time = new Date();

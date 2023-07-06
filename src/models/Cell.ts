@@ -19,7 +19,8 @@ export class Cell {
     }
     
     setPiece(piece: Piece) {
-        new Move(this.board, piece.color, piece, [piece.cell.x, piece.cell.y], [this.x, this.y]);
+        new Move(this.board, piece.color, piece, this.piece, [piece.cell.x, piece.cell.y], [this.x, this.y]);
+        console.log(this.board.moves);
 
         this.piece = piece;
         this.piece.cell = this;
