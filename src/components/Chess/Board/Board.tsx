@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState, useRef } from 'react';
+import { createContext, useEffect, useState, useRef, useCallback } from 'react';
 import { PieceInterface } from "./types/PieceInterface";
 import { CellInterface } from './types/CellInterface';
 import styles from './styles/Board.module.scss';
@@ -43,37 +43,13 @@ const Board = ({pieces, isBoardWhiteSide, movePieceFromTo}: BoardProps) => {
     const [grabbedPieceHeight, setGrabbedPieceHeight] = useState<number>(0);
     const [grabbedPieceX, setGrabbedPieceX] = useState<number>(0);
     const [grabbedPieceY, setGrabbedPieceY] = useState<number>(0);
+    const [isMouseOnTheBoard, setIsMouseOnTheBoard] = useState(false);
   
     const boardRef = useRef<HTMLInputElement>(null);
 
-    // tracking PIECES prop update and board flip prop
-    // building new board and filling cells with updated pieces
-    // flipping the board if required
-    useEffect(() => {
-        const piecesErrors = collectPiecesErrors(pieces);
-        if(piecesErrors) return console.warn(piecesErrors);
-
-        const board = getBoardWithPieces(pieces);
-        if(!isBoardWhiteSide) {
-            for(const row of board) {
-                row.reverse();
-            }
-            board.reverse();
-        }
-        setBoard(board);
-    }, [pieces, isBoardWhiteSide])
-
-    function onMouseMove(event: React.MouseEvent<HTMLElement>) {
-        if(!grabbedPiece) return;
-        setupGrabbedPieceSettings(event);
-    }
-    function onMouseDown(event: React.MouseEvent<HTMLElement>) {
-        setupGrabbedPieceSettings(event);
-    }
-
     // setting up piece width, height
     // tracking mouse position and setting up X and Y coordinates
-    function setupGrabbedPieceSettings(event: React.MouseEvent<HTMLElement>) {
+    const setupGrabbedPieceSettings = useCallback((event: React.MouseEvent<HTMLElement>) => {
         // Setup grabbed piece width and height
         const width = !boardRef.current?.offsetWidth ? 0 : boardRef.current.offsetWidth;
         const height = !boardRef.current?.offsetHeight ? 0 : boardRef.current.offsetHeight;
@@ -90,7 +66,32 @@ const Board = ({pieces, isBoardWhiteSide, movePieceFromTo}: BoardProps) => {
     
         setGrabbedPieceX(x);
         setGrabbedPieceY(y);
-    }
+    }, [boardRef]);
+
+    // tracking PIECES prop update and board flip prop
+    // building new board and filling cells with updated pieces
+    // flipping the board if required
+    useEffect(() => {
+        const piecesErrors = collectPiecesErrors(pieces);
+        if(piecesErrors) return console.warn(piecesErrors);
+
+        const board = getBoardWithPieces(pieces);
+        if(!isBoardWhiteSide) {
+            for(const row of board) {
+                row.reverse();
+            }
+            board.reverse();
+        }
+        setBoard(board);
+    }, [pieces, isBoardWhiteSide]);
+
+    const onMouseMove = useCallback((event: React.MouseEvent<HTMLElement>) => {
+        if(!grabbedPiece) return;
+        setupGrabbedPieceSettings(event);
+    }, [grabbedPiece, setupGrabbedPieceSettings]);
+    const onMouseDown = useCallback((event: React.MouseEvent<HTMLElement>) => {
+        setupGrabbedPieceSettings(event);
+    }, [setupGrabbedPieceSettings]);
 
     // when we drop piece to a possibleMoves cell
     // piece is getting instantly located in that cell
@@ -98,7 +99,7 @@ const Board = ({pieces, isBoardWhiteSide, movePieceFromTo}: BoardProps) => {
     // so user is gonna see that he moved a piece instantly
     // also he hears a sound
     // TOOD: should be added opponent move tracking to make a sound for it
-    function movePieceFromToHandler(from: string, to: string) {
+    const movePieceFromToHandler = useCallback((from: string, to: string) => {
         if(board === null) return;
         let pieceCaptured = false;
         let fromCell_i_j = [0, 0];
@@ -131,23 +132,18 @@ const Board = ({pieces, isBoardWhiteSide, movePieceFromTo}: BoardProps) => {
             soundMoveSelf();
         }
         movePieceFromTo(from, to);
-    }
+    }, [board, movePieceFromTo]);
 
-    const [isMouseOnTheBoard, setIsMouseOnTheBoard] = useState(false);
-
-    function onMouseLeave() {
+    const onMouseLeave = useCallback(() => {
         setIsMouseOnTheBoard(false);
-    }
-    
-    function onMouseEnter() {
+    }, []);
+    const onMouseEnter = useCallback(() => {
         setIsMouseOnTheBoard(true);
-    }
-
-    function onMouseUpOutsideOfTheBoard() {
+    }, []);
+    const onMouseUpOutsideOfTheBoard = useCallback(() => {
         setGrabbedPiece(null);
-    }
-
-    function handleMouseMoveListener(event: MouseEvent) {
+    }, []);
+    const handleMouseMoveListener = useCallback((event: MouseEvent) => {
         if(!boardRef.current) return;
         const { clientX, clientY } = event;
         const { left, top, width, height } = boardRef.current.getBoundingClientRect();
@@ -159,7 +155,7 @@ const Board = ({pieces, isBoardWhiteSide, movePieceFromTo}: BoardProps) => {
         if(y > height) setGrabbedPieceY(height);
         else if(y < 0) setGrabbedPieceY(0);
         else setGrabbedPieceY(y);
-    }
+    }, [boardRef]);
 
     useEffect(() => {
         if(!isMouseOnTheBoard && grabbedPiece !== null) {
@@ -170,7 +166,7 @@ const Board = ({pieces, isBoardWhiteSide, movePieceFromTo}: BoardProps) => {
             window.removeEventListener('mousemove', handleMouseMoveListener);
             window.removeEventListener('mouseup', onMouseUpOutsideOfTheBoard);
         }
-    }, [isMouseOnTheBoard, grabbedPiece])
+    }, [isMouseOnTheBoard, grabbedPiece, handleMouseMoveListener, onMouseUpOutsideOfTheBoard])
 
     if(board === null) return;
     return (
