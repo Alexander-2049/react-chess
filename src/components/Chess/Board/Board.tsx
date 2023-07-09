@@ -133,6 +133,45 @@ const Board = ({pieces, isBoardWhiteSide, movePieceFromTo}: BoardProps) => {
         movePieceFromTo(from, to);
     }
 
+    const [isMouseOnTheBoard, setIsMouseOnTheBoard] = useState(false);
+
+    function onMouseLeave() {
+        setIsMouseOnTheBoard(false);
+    }
+    
+    function onMouseEnter() {
+        setIsMouseOnTheBoard(true);
+    }
+
+    function onMouseUpOutsideOfTheBoard() {
+        setGrabbedPiece(null);
+    }
+
+    function handleMouseMoveListener(event: MouseEvent) {
+        if(!boardRef.current) return;
+        const { clientX, clientY } = event;
+        const { left, top, width, height } = boardRef.current.getBoundingClientRect();
+        const x = clientX - left;
+        const y = clientY - top;
+        if(x > width) setGrabbedPieceX(width);
+        else if(x < 0) setGrabbedPieceX(0);
+        else setGrabbedPieceX(x);
+        if(y > height) setGrabbedPieceY(height);
+        else if(y < 0) setGrabbedPieceY(0);
+        else setGrabbedPieceY(y);
+    }
+
+    useEffect(() => {
+        if(!isMouseOnTheBoard && grabbedPiece !== null) {
+            window.addEventListener('mousemove', handleMouseMoveListener);
+            window.addEventListener('mouseup', onMouseUpOutsideOfTheBoard);
+        }
+        return () => {
+            window.removeEventListener('mousemove', handleMouseMoveListener);
+            window.removeEventListener('mouseup', onMouseUpOutsideOfTheBoard);
+        }
+    }, [isMouseOnTheBoard, grabbedPiece])
+
     if(board === null) return;
     return (
         <SelectContext.Provider value={{ grabbedPiece, setGrabbedPiece, movePieceFromToHandler, selectedPiece, setSelectedPiece }}>
@@ -141,7 +180,8 @@ const Board = ({pieces, isBoardWhiteSide, movePieceFromTo}: BoardProps) => {
                     styles.boardWrapper,
                     grabbedPiece === null ? '' : styles.boardHover
                 ].join(' ')}
-                onMouseLeave={() => setGrabbedPiece(null)}
+                onMouseLeave={onMouseLeave}
+                onMouseEnter={onMouseEnter}
                 ref={boardRef}
                 onMouseMove={onMouseMove}
                 onMouseDown={onMouseDown}
