@@ -3,7 +3,7 @@
     aspect-ratio: 1 / 1;
     user-select: none;
     position: relative;
-    border-radius: 4px;
+    border-radius: 4px; // doesn't work without overflow hidden
     max-height: calc(100vh - 80px);
     max-width: calc(100vw - 80px);
     width: 650px;
