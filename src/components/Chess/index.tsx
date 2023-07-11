@@ -6,6 +6,7 @@ import MoveHistory from './MoveHistory';
 import Wrapper from './Layout';
 import RightBlock from './Layout/RightBlock';
 import BoardWrapper from './Layout/BoardWrapper';
+import ErrorBoundaryForChess from './ErrorBoundaryForChess';
 
 export type movePieceFromToType = (from: string, to: string) => void;
 
@@ -23,15 +24,17 @@ export function Chess({movePieceFromTo, pieces}: ChessInterface) {
     }, [isBoardWhiteSide])
 
     return (
-        <Wrapper>
-            <BoardWrapper>
-                <Board movePieceFromTo={movePieceFromTo} pieces={pieces} isBoardWhiteSide={isBoardWhiteSide}/>
-            </BoardWrapper>
-            <RightBlock>
-                <Controls flipBoard={flipBoard}/>
-                <MoveHistory moveHistory={[]} display={true}/>
-            </RightBlock>
-        </Wrapper>
+        <ErrorBoundaryForChess>
+            <Wrapper>
+                <BoardWrapper>
+                    <Board movePieceFromTo={movePieceFromTo} pieces={pieces} isBoardWhiteSide={isBoardWhiteSide}/>
+                </BoardWrapper>
+                <RightBlock>
+                    <Controls flipBoard={flipBoard}/>
+                    <MoveHistory moveHistory={[]} display={true}/>
+                </RightBlock>
+            </Wrapper>
+        </ErrorBoundaryForChess>
     );
 }
 
