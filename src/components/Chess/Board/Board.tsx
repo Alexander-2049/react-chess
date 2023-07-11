@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState, useRef, useCallback } from 'react';
+import { useEffect, useState, useRef, useCallback } from 'react';
 import { PieceInterface } from "./types/PieceInterface";
 import { CellInterface } from './types/CellInterface';
 import styles from './styles/Board.module.scss';
@@ -8,22 +8,7 @@ import { getBoardWithPieces } from '../utils/getBoardWithPieces';
 import { movePieceFromToType } from '..';
 import { soundCapture, soundMoveSelf } from '../utils/sounds';
 import Piece from './Piece';
-
-interface SelectContextProps {
-    movePieceFromToHandler: movePieceFromToType;
-    grabbedPiece: PieceInterface | null;
-    setGrabbedPiece: React.Dispatch<React.SetStateAction<PieceInterface | null>>;
-    selectedPiece: PieceInterface | null;
-    setSelectedPiece: React.Dispatch<React.SetStateAction<PieceInterface | null>>;
-}
-
-export const SelectContext = createContext<SelectContextProps>({
-    grabbedPiece: null,
-    selectedPiece: null,
-    setGrabbedPiece: () => { console.warn('setGrabbedPiece has to be a useState function') },
-    setSelectedPiece: () => { console.warn('setSelectedCell has to be a useState function') },
-    movePieceFromToHandler: () => { console.warn('movePieceFromToHandler has to be changed') }
-});
+import { SelectContext } from './context/SelectContext';
 
 interface BoardProps {
     pieces: PieceInterface[];

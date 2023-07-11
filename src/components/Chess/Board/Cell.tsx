@@ -4,9 +4,9 @@ import { CellInterface } from './types/CellInterface';
 import React from 'react';
 
 import { useContext, useState } from 'react';
-import { SelectContext } from './Board';
 import { Hint } from './Hint';
 import { HintTypes } from './types/HintTypes';
+import { SelectContext } from './context/SelectContext';
 
 interface CellProps {
     cell: CellInterface;
